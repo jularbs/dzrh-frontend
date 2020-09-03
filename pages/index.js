@@ -1,10 +1,11 @@
-// import Layout from "../components/Layout";
+import Layout from "../layouts/Layout";
+import Signin from "../components/auth/Signin";
 
 const Index = () => {
   return (
-    // <Layout>
-      <h2>index page hello</h2>
-    // </Layout>
+    <Layout>
+      <Signin></Signin>
+    </Layout>
   );
 };
 

@@ -45,5 +45,8 @@
     "react-scripts": "2.1.1",
     "shards-react": "^1.0.0",
     "shortid": "^2.2.14"
+  },
+  "devDependencies": {
+    "file-loader": "^6.1.0"
   }
 }
