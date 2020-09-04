@@ -9,6 +9,8 @@ import {
   NavItem,
   NavLink
 } from "shards-react";
+import { isAuth, signout } from "../../../../actions/auth";
+import Router from "next/router"; 
 
 export default class UserActions extends React.Component {
   constructor(props) {
@@ -41,7 +43,10 @@ export default class UserActions extends React.Component {
             src={"../../../../static/images/avatars/0.jpg"}
             alt="User Avatar"
           />{" "}
-          <span className="d-none d-md-inline-block mr-3">Ralph Jularbal</span>
+       
+          <span className="d-none d-md-inline-block mr-3">
+            {isAuth() && (<span>{`${isAuth().name}`}</span>)}
+          </span>
         </DropdownToggle>
         <Collapse tag={DropdownMenu} right small open={this.state.visible}>
           <DropdownItem
@@ -69,7 +74,9 @@ export default class UserActions extends React.Component {
             </NavLink>
           </DropdownItem>
           <DropdownItem divider />
-          <DropdownItem tag={Link} href="/" className="text-danger">
+          <DropdownItem
+            onClick={() => signout(() => Router.replace("/cms/login"))}
+          >
             <NavLink className="pl-3 text-danger">
               <i className="material-icons text-danger">&#xE879;</i> Logout
             </NavLink>

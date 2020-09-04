@@ -180,24 +180,24 @@ const MainSidebar = () => {
           <NavbarBrand
             className="w-100 mr-0"
             href="#"
-            style={{ lineHeight: "25px" }}
+            style={{ lineHeight: "25px", backgroundColor: "rgb(254,195,33)" }}
           >
             <div className="d-table m-auto">
-              <span className="d-none d-md-inline ml-1">DZRH News</span>
+              <span className="d-none d-md-inline ml-1">DZRH NEWS ONLINE</span>
             </div>
           </NavbarBrand>
         </Navbar>
         <div className="nav-wrapper">
           <SidebarTitle title="dashboards" />
-            {showOverview()}
+          {showOverview()}
           <SidebarTitle title="articles" />
-            {showArticles()}
+          {showArticles()}
           <SidebarTitle title="streaming" />
-            {showStreaming()}
+          {showStreaming()}
           <SidebarTitle title="user management" />
-            {showUserManagement()}
+          {showUserManagement()}
           <SidebarTitle title="options" />
-            {showOptions()}
+          {showOptions()}
         </div>
       </div>
     </Col>

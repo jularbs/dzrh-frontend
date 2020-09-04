@@ -36,9 +36,9 @@ const Signin = () => {
       } else {
         authenticate(data, () => {
           if (isAuth() && isAuth().role === 1) {
-            Router.push(`index`);
+            Router.push(`admin/`);
           } else {
-            Router.push(`index`);
+            Router.push(`user/`);
           }
         });
       }
