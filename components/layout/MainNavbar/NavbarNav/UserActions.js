@@ -30,38 +30,47 @@ export default class UserActions extends React.Component {
   render() {
     return (
       <NavItem tag={Dropdown} caret toggle={this.toggleUserActions}>
-        <DropdownToggle caret tag={NavLink} className="text-nowrap px-3">
+        <DropdownToggle
+          caret
+          tag={NavLink}
+          className="text-nowrap px-3"
+          style={{ color: "rgb(0,0,0,0.5)" }}
+        >
           <img
             className="user-avatar rounded-circle mr-2"
             src={"../../../../static/images/avatars/0.jpg"}
             alt="User Avatar"
           />{" "}
-          <span className="d-none d-md-inline-block">Sierra Brooks</span>
+          <span className="d-none d-md-inline-block mr-3">Ralph Jularbal</span>
         </DropdownToggle>
         <Collapse tag={DropdownMenu} right small open={this.state.visible}>
-          <DropdownItem tag={Link} href="user-profile">
-            <NavLink className="pl-3">
+          <DropdownItem
+            tag={Link}
+            href="user-profile"
+            style={{ color: "rgb(0,0,0,0.5)" }}
+          >
+            <NavLink className="pl-3" style={{ color: "rgb(0,0,0,0.5)" }}>
               <i className="material-icons">&#xE7FD;</i> Profile
             </NavLink>
           </DropdownItem>
           <DropdownItem tag={Link} href="edit-user-profile">
-            <NavLink className="pl-3">
+            <NavLink className="pl-3" style={{ color: "rgb(0,0,0,0.5)" }}>
               <i className="material-icons">&#xE8B8;</i> Edit Profile
             </NavLink>
           </DropdownItem>
           <DropdownItem tag={Link} href="file-manager-list">
-            <NavLink className="pl-3">
+            <NavLink className="pl-3" style={{ color: "rgb(0,0,0,0.5)" }}>
               <i className="material-icons">&#xE2C7;</i> Files
             </NavLink>
           </DropdownItem>
           <DropdownItem tag={Link} href="transaction-history">
-            <NavLink className="pl-3">
+            <NavLink className="pl-3" style={{ color: "rgb(0,0,0,0.5)" }}>
               <i className="material-icons">&#xE896;</i> Transactions
             </NavLink>
           </DropdownItem>
           <DropdownItem divider />
           <DropdownItem tag={Link} href="/" className="text-danger">
-            <NavLink className="pl-3">
+            <NavLink className="pl-3 text-danger">
               <i className="material-icons text-danger">&#xE879;</i> Logout
             </NavLink>
           </DropdownItem>
