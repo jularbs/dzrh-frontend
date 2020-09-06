@@ -1,6 +1,4 @@
 // TO DO:
-// SHOW INTERFACE IF A PHOTO HAS BEEN SELECTED
-// TRY TO SHOW PREVIEW IMAGE
 
 // ABUSE TEST ON CHECKBOX SOMETIEMS BUGGY
 // CONVERT CATEGORIES TO RADIO BUTTON
@@ -17,8 +15,8 @@ import { Row, Col } from "shards-react";
 import rs from "text-readability";
 import dynamic from "next/dynamic";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
-import "../../node_modules/react-quill/dist/quill.snow.css";
 import "../../assets/quill.css";
+import "../../node_modules/react-quill/dist/quill.snow.css";
 
 import {
   CardHeader,
@@ -43,7 +41,9 @@ import { getTags } from "../../actions/tag";
 import { getCategories } from "../../actions/category";
 import { create } from "../../actions/blog";
 
-const CreateBlog = ({router}) => {
+import { Quillmodules, Quillformats } from "../../utils/quill";
+
+const CreateBlog = ({ router }) => {
   const [categories, setCategories] = useState([]);
   const [tags, setTags] = useState([]);
 
@@ -59,9 +59,18 @@ const CreateBlog = ({router}) => {
     title: "",
     formData: "",
     rsScore: "",
+    previewImage: "",
   });
 
-  const { error, success, loading, title, formData, rsScore } = values;
+  const {
+    error,
+    success,
+    loading,
+    title,
+    formData,
+    rsScore,
+    previewImage,
+  } = values;
 
   const token = getCookie("token");
 
@@ -104,8 +113,11 @@ const CreateBlog = ({router}) => {
           />
           <ReactQuill
             className="add-new-post__editor mb-1"
+            placeholder="Type something amazing..."
             onChange={handleBody}
             value={body}
+            modules={Quillmodules}
+            formats={Quillformats}
           />
         </CardBody>
       </Card>
@@ -211,6 +223,10 @@ const CreateBlog = ({router}) => {
     );
   };
 
+  const previewImageContainer = () => {
+    if (previewImage) return <img src={previewImage} alt="" style={{width:"100%"}}/>;
+    else return <div className="mb-2 mt-2 text-center mx-auto">No photo selected.</div>;
+  };
   const showFeaturedImage = () => {
     return (
       <Card small className="mb-3">
@@ -219,6 +235,7 @@ const CreateBlog = ({router}) => {
         </CardHeader>
 
         <CardBody className="p-0">
+          {previewImageContainer()}
           <ListGroupItem className="d-flex px-3 border-0">
             {/* <div className="align-items-center"> */}
             <label className="btn ml-auto btn-primary">
@@ -385,6 +402,15 @@ const CreateBlog = ({router}) => {
   };
   const handleChange = (name) => (e) => {
     const value = name === "photo" ? e.target.files[0] : e.target.value;
+    if (name === "photo") {
+      let reader = new FileReader();
+      reader.onloadend = () => {
+        console.log("READER ENDED LOAD");
+        setValues({ ...values, previewImage: reader.result });
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    }
+
     formData.set(name, value);
     setValues({ ...values, [name]: value, formData, error: "" });
   };

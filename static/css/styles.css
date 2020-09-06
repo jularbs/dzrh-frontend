@@ -2,3 +2,7 @@
     height: 5px !important;
     z-index: 1071;
 }
+
+.nav-link {
+    cursor: pointer;
+}

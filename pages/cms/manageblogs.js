@@ -1,7 +1,10 @@
 // TO ADD
 // TILE VIEW AND TABLE VIEW
-// INFINITE SCROLLER
+// INFINITE SCROLLER LOAD MORE
 // SHOW CATEGORY AND TAG PICKER
+// Display user photo
+
+//TRY MASONRY LAYOUT FOR CARDS
 
 import { useState, useEffect } from "react";
 import { listBlogsWithCategoriesAndTags } from "../../actions/blog";
@@ -31,6 +34,19 @@ const ManageBlogs = ({
   const [limit, setLimit] = useState(blogsLimit);
   const [size, setSize] = useState(totalBlogs);
   const [loadedBlogs, setLoadedBlogs] = useState([]);
+
+  const time = (t) => {
+    const index = t.indexOf("T");
+    const date = t.slice(0, index);
+    const now = moment();
+    const display = moment(t)
+      .add(2, "days")
+      .endOf("day");
+
+    if (now.isAfter(display))
+      return <div>{moment(date).format("DD MMMM YYYY")}</div>;
+    else return <div>{moment(t).fromNow()}</div>;
+  };
 
   const listBlogs = () => (
     <Row>
@@ -89,19 +105,30 @@ const ManageBlogs = ({
                 <span className="card-post__author-name">
                   {post.postedBy.name}
                 </span>
-                <small className="text-muted">
-                  {moment(post.createdAt).fromNow()}
-                </small>
+                <small className="text-muted">{time(post.updatedAt)}</small>
               </div>
             </div>
             <div className="my-auto ml-auto">
-              <Button size="sm" theme="white">
-                <i className="far fa-bookmark mr-1" /> Bookmark
+              <Button size="sm" theme="primary">
+                Published
               </Button>
             </div>
           </div>
         </Col>
       ))}
+      <Col lg="6" sm="12">
+        <Card style={{cursor: "pointer"}} className="mb-4">
+          <div className="mx-auto mt-5 mb-5 text-center">
+            <i
+              style={{ fontSize: "80px", color: "#CACEDB" }}
+              className="material-icons mr-1 mx-auto"
+            >
+              add_box
+            </i>
+            <h5>Show more blogs...</h5>
+          </div>
+        </Card>
+      </Col>
     </Row>
   );
 
@@ -127,7 +154,7 @@ const ManageBlogs = ({
 
 ManageBlogs.getInitialProps = () => {
   let skip = 0;
-  let limit = 10;
+  let limit = 2;
   return listBlogsWithCategoriesAndTags(skip, limit).then((data) => {
     if (data.error) {
       console.log(data.error);
