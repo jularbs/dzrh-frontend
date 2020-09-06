@@ -1,13 +1,42 @@
-import {
-  Card,
-  CardBody,
-  Form,
-  FormInput,
-  CardHeader,
-  Button,
-} from "shards-react";
+import { Card, CardBody, CardHeader } from "shards-react";
+
+import { getTags } from "../../actions/tag";
+import { useEffect, useState } from "react";
+
+// TO ADD
+// onclick event show articles related to chosen tag
+//show articles count
 
 const TagList = () => {
+  const [tags, setTags] = useState([]);
+  const [values, setValues] = useState({
+    error: "",
+    message: "",
+    reload: "",
+  });
+
+  const init = () => {
+    getTags().then((data) => {
+      if (data.error) setValues({ ...values, error: data.error });
+
+      setTags(data);
+    });
+  };
+
+  useEffect(() => {
+    init();
+  }, []);
+
+  const listTags = () =>
+    tags &&
+    tags.map((t, i) => (
+      <tr key={i}>
+        <td>{i + 1}</td>
+        <td>{t.name}</td>
+        <td>11</td>
+      </tr>
+    ));
+
   return (
     <Card small className="mb-4">
       <CardHeader className="border-bottom">
@@ -28,13 +57,7 @@ const TagList = () => {
               </th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Covid 19</td>
-              <td>11</td>
-            </tr>
-          </tbody>
+          <tbody>{listTags()}</tbody>
         </table>
       </CardBody>
     </Card>

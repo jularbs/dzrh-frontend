@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Container, Row, Nav, NavItem, NavLink } from "shards-react";
-import Link from "next/link";
 
 const MainFooter = ({ contained, menuItems, copyright }) => (
   <footer className="main-footer d-flex p-2 px-3 bg-white border-top">
@@ -10,7 +9,7 @@ const MainFooter = ({ contained, menuItems, copyright }) => (
         <Nav>
           {menuItems.map((item, idx) => (
             <NavItem key={idx}>
-              <NavLink tag={Link} href={item.to}>
+              <NavLink tag={NavLink} href={item.to}>
                 {item.title}
               </NavLink>
             </NavItem>
@@ -39,7 +38,7 @@ MainFooter.propTypes = {
 
 MainFooter.defaultProps = {
   contained: false,
-  copyright: "Copyright © 2018 DesignRevision",
+  copyright: "Copyright © 2020 Ralph Jularbal",
   menuItems: [
     {
       title: "Home",

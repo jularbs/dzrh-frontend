@@ -1,13 +1,49 @@
+//TO DO 
+//SHOW ERRORS
+// TO ADD
+// onclick event show articles related to chosen tag
+//show articles count
+
 import {
   Card,
   CardBody,
-  Form,
-  FormInput,
   CardHeader,
-  Button,
 } from "shards-react";
 
+import { useState, useEffect } from "react";
+import { getCategories } from "../../actions/category";
+
 const CategoryList = () => {
+  const [categories, setCategories] = useState([]);
+  const [values, setValues] = useState({
+    error: "",
+    successs: "",
+    reload: "",
+  });
+
+  const init = () => {
+    getCategories().then((data) => {
+      if (data.error) {
+        setValues({ ...values, error: data.error });
+      }
+      setCategories(data);
+    });
+  };
+
+  useEffect(() => {
+    init();
+  }, []);
+
+  const listCategories = () =>
+    categories &&
+    categories.map((c, i) => (
+      <tr key={i}>
+        <td>{i + 1}</td>
+        <td>{c.name}</td>
+        <td>11</td>
+      </tr>
+    ));
+
   return (
     <Card small className="mb-4">
       <CardHeader className="border-bottom">
@@ -28,13 +64,7 @@ const CategoryList = () => {
               </th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Covid 19</td>
-              <td>11</td>
-            </tr>
-          </tbody>
+          <tbody>{listCategories()}</tbody>
         </table>
       </CardBody>
     </Card>

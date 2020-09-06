@@ -2,10 +2,9 @@ import { Container, Row, Col } from "shards-react";
 import MainSidebar from "./MainSidebar";
 import MainNavbar from "./MainNavbar";
 import MainFooter from "../components/layout/MainFooter";
-
 // TO FIX
-// userActions: Color
-// MainFooter: align items
+// userActions: Color on hover
+// nprogress!!
 
 const Layout = ({children}) => {
   return (
@@ -23,7 +22,7 @@ const Layout = ({children}) => {
           <Container fluid className="main-content-container px-4">
             {children}
           </Container>
-          {/* <MainFooter /> */}
+          <MainFooter />
         </Col>
       </Row>
     </Container>

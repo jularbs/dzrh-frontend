@@ -2,12 +2,12 @@ import { Col } from "shards-react";
 import { Navbar, NavbarBrand, Nav } from "shards-react";
 import SidebarNavItem from "../components/layout/MainSidebar/SidebarNavItem";
 import SidebarTitle from "../components/common/SidebarTitle";
+import { isAuth } from "../actions/auth";
 
 const showOverview = () => {
   return (
     <Nav className="nav--no-borders flex-column">
       <SidebarNavItem
-        key={1}
         item={{
           title: "Dashboard Overview",
           to: "/blog-overview",
@@ -16,7 +16,6 @@ const showOverview = () => {
         }}
       />
       <SidebarNavItem
-        key={1}
         item={{
           title: "Google Analytics",
           to: "/blog-overview",
@@ -25,7 +24,6 @@ const showOverview = () => {
         }}
       />
       <SidebarNavItem
-        key={1}
         item={{
           title: "Google Adsense",
           to: "/blog-overview",
@@ -34,7 +32,6 @@ const showOverview = () => {
         }}
       />
       <SidebarNavItem
-        key={1}
         item={{
           title: "Disqus Management",
           to: "/blog-overview",
@@ -46,41 +43,37 @@ const showOverview = () => {
   );
 };
 
-const showArticles = () => {
+const showArticles = (roleURL) => {
   return (
     <Nav className="nav--no-borders flex-column">
       <SidebarNavItem
-        key={1}
         item={{
           title: "Create New Article",
-          to: "/blog-overview",
+          to: `/cms/${roleURL}/createarticle`,
           htmlBefore: '<i class="material-icons">note_add</i>',
           htmlAfter: "",
         }}
       />
       <SidebarNavItem
-        key={1}
         item={{
           title: "Manage Articles",
-          to: "/blog-overview",
+          to: `/cms/manageblogs/`,
           htmlBefore: '<i class="material-icons">vertical_split</i>',
           htmlAfter: "",
         }}
       />
       <SidebarNavItem
-        key={1}
         item={{
           title: "Category Management",
-          to: "/blog-overview",
+          to: `/cms/${roleURL}/category/`,
           htmlBefore: '<i class="material-icons">account_tree</i>',
           htmlAfter: "",
         }}
       />
       <SidebarNavItem
-        key={1}
         item={{
           title: "Tags Management",
-          to: "/blog-overview",
+          to: `/cms/${roleURL}/tag/`,
           htmlBefore: '<i class="material-icons">local_offer</i>',
           htmlAfter: "",
         }}
@@ -93,7 +86,6 @@ const showStreaming = () => {
   return (
     <Nav className="nav--no-borders flex-column">
       <SidebarNavItem
-        key={1}
         item={{
           title: "Video Stream Settings",
           to: "/blog-overview",
@@ -102,7 +94,6 @@ const showStreaming = () => {
         }}
       />
       <SidebarNavItem
-        key={1}
         item={{
           title: "Audio Stream Settings",
           to: "/blog-overview",
@@ -118,7 +109,6 @@ const showUserManagement = () => {
   return (
     <Nav className="nav--no-borders flex-column">
       <SidebarNavItem
-        key={1}
         item={{
           title: "Manage Users",
           to: "/blog-overview",
@@ -127,7 +117,6 @@ const showUserManagement = () => {
         }}
       />
       <SidebarNavItem
-        key={1}
         item={{
           title: "Pending Users",
           to: "/blog-overview",
@@ -143,7 +132,6 @@ const showOptions = () => {
   return (
     <Nav className="nav--no-borders flex-column">
       <SidebarNavItem
-        key={1}
         item={{
           title: "Social Media API Keys",
           to: "/blog-overview",
@@ -152,7 +140,6 @@ const showOptions = () => {
         }}
       />
       <SidebarNavItem
-        key={1}
         item={{
           title: "Dashboard Overview",
           to: "/blog-overview",
@@ -165,6 +152,12 @@ const showOptions = () => {
 };
 
 const MainSidebar = () => {
+  var roleURL = "";
+
+  if (isAuth() && isAuth().role == 0) roleURL = "user";
+  else if (isAuth() && isAuth().role == 1) roleURL = "admin";
+  else roleURL = "";
+
   return (
     <Col
       tag="aside"
@@ -189,15 +182,15 @@ const MainSidebar = () => {
         </Navbar>
         <div className="nav-wrapper">
           <SidebarTitle title="dashboards" />
-          {showOverview()}
+          {showOverview(roleURL)}
           <SidebarTitle title="articles" />
-          {showArticles()}
+          {showArticles(roleURL)}
           <SidebarTitle title="streaming" />
-          {showStreaming()}
+          {showStreaming(roleURL)}
           <SidebarTitle title="user management" />
-          {showUserManagement()}
+          {showUserManagement(roleURL)}
           <SidebarTitle title="options" />
-          {showOptions()}
+          {showOptions(roleURL)}
         </div>
       </div>
     </Col>
