@@ -6,3 +6,26 @@
 .nav-link {
     cursor: pointer;
 }
+
+.activelink {
+    color: #007bff;
+}
+
+.image-cropper {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50% !important;
+}
+
+.profile-pic {
+  margin: 0 auto;
+  height: auto;
+  width: 100%;
+}
+
+.add-new-post__editor .ql-container,
+.add-new-post__editor .ql-editor {
+  min-height: 400px;
+}

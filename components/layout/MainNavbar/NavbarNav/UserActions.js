@@ -7,17 +7,17 @@ import {
   DropdownItem,
   Collapse,
   NavItem,
-  NavLink
+  NavLink,
 } from "shards-react";
 import { isAuth, signout } from "../../../../actions/auth";
-import Router from "next/router"; 
+import Router from "next/router";
 
 export default class UserActions extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      visible: false
+      visible: false,
     };
 
     this.toggleUserActions = this.toggleUserActions.bind(this);
@@ -25,7 +25,7 @@ export default class UserActions extends React.Component {
 
   toggleUserActions() {
     this.setState({
-      visible: !this.state.visible
+      visible: !this.state.visible,
     });
   }
 
@@ -43,34 +43,16 @@ export default class UserActions extends React.Component {
             src={"../../../../static/images/avatars/0.jpg"}
             alt="User Avatar"
           />{" "}
-       
-          <span className="d-none d-md-inline-block mr-3">
-            {isAuth() && (<span>{`${isAuth().name}`}</span>)}
-          </span>
+          {isAuth() && (
+            <label className="d-none d-md-inline-block mr-3">{`${
+              isAuth().name
+            }`}</label>
+          )}
         </DropdownToggle>
         <Collapse tag={DropdownMenu} right small open={this.state.visible}>
-          <DropdownItem
-            tag={Link}
-            href="user-profile"
-            style={{ color: "rgb(0,0,0,0.5)" }}
-          >
-            <NavLink className="pl-3" style={{ color: "rgb(0,0,0,0.5)" }}>
-              <i className="material-icons">&#xE7FD;</i> Profile
-            </NavLink>
-          </DropdownItem>
           <DropdownItem tag={Link} href="edit-user-profile">
             <NavLink className="pl-3" style={{ color: "rgb(0,0,0,0.5)" }}>
               <i className="material-icons">&#xE8B8;</i> Edit Profile
-            </NavLink>
-          </DropdownItem>
-          <DropdownItem tag={Link} href="file-manager-list">
-            <NavLink className="pl-3" style={{ color: "rgb(0,0,0,0.5)" }}>
-              <i className="material-icons">&#xE2C7;</i> Files
-            </NavLink>
-          </DropdownItem>
-          <DropdownItem tag={Link} href="transaction-history">
-            <NavLink className="pl-3" style={{ color: "rgb(0,0,0,0.5)" }}>
-              <i className="material-icons">&#xE896;</i> Transactions
             </NavLink>
           </DropdownItem>
           <DropdownItem divider />

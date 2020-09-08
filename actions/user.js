@@ -15,12 +15,12 @@ export const userPublicProfile = (username) => {
     .catch((err) => console.log(err));
 };
 
-export const getProfile = token => {
+export const getProfile = (token) => {
   return fetch(`${API}/user/profile`, {
     method: "GET",
     headers: {
       Accept: "application/json",
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     },
   })
     .then((response) => {
@@ -45,4 +45,51 @@ export const update = async (token, user) => {
     .catch((err) => console.log(err));
 };
 
+export const listPending = (token) => {
+  return fetch(`${API}/registration/pendingusers`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((response) => {
+      handleResponse(response);
+      return response.json();
+    })
+    .catch((err) => console.log(err));
+};
 
+export const acceptUser = (token, _id) => {
+  return fetch(`${API}/registration/accept`, {
+    method: "PUT",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(_id),
+  })
+    .then((response) => {
+      handleResponse(response);
+      return response.json();
+    })
+    .catch((err) => console.log(err));
+};
+
+export const declineUser = (token, _id) => {
+  return fetch(`${API}/registration/decline`, {
+    method: "PUT",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(_id),
+  })
+    .then((response) => {
+      handleResponse(response);
+      return response.json();
+    })
+    .catch((err) => console.log(err));
+};

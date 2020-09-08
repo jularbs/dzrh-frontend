@@ -6,7 +6,7 @@ import { signin, authenticate, isAuth } from "../../actions/auth";
 import Router from "next/router";
 
 //TO DO: Layout fix
-//Fix Links
+// Fix Links
 // redirext if logged on
 // fix redirection place (user roles)
 

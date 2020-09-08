@@ -15,7 +15,6 @@ import { Row, Col } from "shards-react";
 import rs from "text-readability";
 import dynamic from "next/dynamic";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
-import "../../assets/quill.css";
 import "../../node_modules/react-quill/dist/quill.snow.css";
 
 import {
