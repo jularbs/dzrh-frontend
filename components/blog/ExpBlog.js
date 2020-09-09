@@ -1,23 +1,3 @@
-// TO DO:
-
-// ABUSE TEST ON CHECKBOX SOMETIMES BUGGY
-// CONVERT CATEGORIES TO RADIO BUTTON
-
-// ADD IMAGE ON RICH EDITOR
-// DECIDE ON SEO SETTINGS >> WILL AFFECT BACKEND
-
-// UI for long category/tag list
-// Action handler for add category and tag
-
-// LocalStorage Handler
-
-// render messed up, quill sometimes not loading CSS
-// UPDATE Quill to version 2 or change editor << change CKEDTEOR
-
-//fix and tags empty on submit
-//set checked tags and cats to empty arr on submit or just show success when updating
-
-//transfer formdata at submit
 import { Row, Col } from "shards-react";
 import rs from "text-readability";
 import dynamic from "next/dynamic";
@@ -49,7 +29,7 @@ import { create, singleBlog, updateBlog } from "../../actions/blog";
 
 import { Quillmodules, Quillformats } from "../../utils/quill";
 
-const CreateBlog = ({ router }) => {
+const ExpBlog = ({ router }) => {
   const [categories, setCategories] = useState([]);
   const [tags, setTags] = useState([]);
 
@@ -438,7 +418,7 @@ const CreateBlog = ({ router }) => {
 
     var data = new FormData();
     data.set("title", title);
-    if (photo) data.set("photo", photo);
+    if(photo) data.set("photo", photo);
     data.set("body", body);
     data.set("categories", checkedCategories);
     data.set("tags", checkedTags);
@@ -485,7 +465,7 @@ const CreateBlog = ({ router }) => {
     setValues({
       ...values,
       error: "",
-      success: "",
+      success: ""
     });
   };
 
@@ -544,5 +524,4 @@ const CreateBlog = ({ router }) => {
   );
 };
 
-export default withRouter(CreateBlog);
-
+export default withRouter(ExpBlog);

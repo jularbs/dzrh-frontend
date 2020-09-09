@@ -126,7 +126,7 @@ const MainSidebar = () => {
         <SidebarNavItem
           item={{
             title: "Manage Users",
-            to: "/blog-overview",
+            to: "/cms/admin/user/manageusers",
             htmlBefore: '<i class="material-icons">people</i>',
             htmlAfter: "",
           }}

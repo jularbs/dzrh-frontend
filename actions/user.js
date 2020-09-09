@@ -60,6 +60,19 @@ export const listPending = (token) => {
     .catch((err) => console.log(err));
 };
 
+export const listUsers = () => {
+  return fetch(`${API}/users/list`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+    },
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => console.log(err));
+};
+
 export const acceptUser = (token, _id) => {
   return fetch(`${API}/registration/accept`, {
     method: "PUT",
@@ -79,6 +92,40 @@ export const acceptUser = (token, _id) => {
 
 export const declineUser = (token, _id) => {
   return fetch(`${API}/registration/decline`, {
+    method: "PUT",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(_id),
+  })
+    .then((response) => {
+      handleResponse(response);
+      return response.json();
+    })
+    .catch((err) => console.log(err));
+};
+
+export const changeRole = (token, user) => {
+  return fetch(`${API}/users/changerole`, {
+    method: "PUT",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(user),
+  })
+    .then((response) => {
+      handleResponse(response);
+      return response.json();
+    })
+    .catch((err) => console.log(err));
+};
+
+export const removeUser = (token, _id) => {
+  return fetch(`${API}/users/remove`, {
     method: "PUT",
     headers: {
       Accept: "application/json",
