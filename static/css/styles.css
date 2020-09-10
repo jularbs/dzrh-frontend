@@ -1,22 +1,36 @@
 #nprogress .bar {
-    height: 5px !important;
-    z-index: 1071;
+  height: 5px !important;
+  z-index: 1071;
 }
 
 .nav-link {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .activelink {
-    color: #007bff;
+  color: #007bff;
 }
 
 .image-cropper {
-    width: 200px;
-    height: 200px;
-    position: relative;
-    overflow: hidden;
-    border-radius: 50% !important;
+  width: 150px;
+  height: 150px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50% !important;
+}
+
+.image-cropper-sm {
+  width: 2.1875rem;
+  height: 2.1875rem;
+  box-shadow: 0 0 0 0.125rem #fff, 0 0.1875rem 0.4375rem rgba(90, 97, 105, 0.5);
+  overflow: hidden;
+  border-radius: 50% !important;
+}
+.image-cropper-avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  overflow: hidden;
+  border-radius: 50% !important;
 }
 
 .profile-pic {
@@ -28,4 +42,10 @@
 .add-new-post__editor .ql-container,
 .add-new-post__editor .ql-editor {
   min-height: 400px;
+}
+
+.footer-overcard {
+  box-shadow: 0 2px 0 rgba(90, 97, 105, 0.11), 0 4px 8px rgba(90, 97, 105, 0.12),
+    0 10px 10px rgba(90, 97, 105, 0.06), 0 7px 70px rgba(90, 97, 105, 0.1);
+  z-index: 1;
 }

@@ -14,7 +14,7 @@ const CreateArticle = () => {
           <PageTitle
             sm="4"
             title="Add New Article"
-            subtitle="Articles"
+            subtitle="Articles Management"
             className="text-sm-left"
           />
         </Row>

@@ -83,10 +83,10 @@ const PendingUsersPage = () => {
       <Col lg="4" md="6" sm="12" key={i}>
         <Card small className="mb-4 pt-3">
           <CardHeader className="border-bottom text-center">
-            <div className="mb-3 mx-auto">
+            <div className="image-cropper mb-3 mx-auto">
               {u.photo ? (
                 <img
-                  className="rounded-circle"
+                  className="profile-pic"
                   src={u.photo.link}
                   alt={u.name}
                   width="110"

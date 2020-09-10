@@ -14,10 +14,8 @@
 // render messed up, quill sometimes not loading CSS
 // UPDATE Quill to version 2 or change editor << change CKEDTEOR
 
-//fix and tags empty on submit
-//set checked tags and cats to empty arr on submit or just show success when updating
+//no success on not update
 
-//transfer formdata at submit
 import { Row, Col } from "shards-react";
 import rs from "text-readability";
 import dynamic from "next/dynamic";
@@ -40,7 +38,7 @@ import {
 } from "shards-react";
 
 import { useState, useEffect } from "react";
-import { getCookie } from "../../actions/auth";
+import { getCookie, isAuth } from "../../actions/auth";
 import { withRouter } from "next/router";
 
 import { getTags } from "../../actions/tag";
@@ -75,12 +73,14 @@ const CreateBlog = ({ router }) => {
   const token = getCookie("token");
 
   useEffect(() => {
+
     initTags();
     initCategories();
     initBlog();
   }, [router]);
 
   const initBlog = () => {
+    setValues({...values, author: isAuth().name})
     if (router.query.slug) {
       singleBlog(router.query.slug).then((data) => {
         console.log(data);
@@ -104,6 +104,7 @@ const CreateBlog = ({ router }) => {
         }
       });
     }
+
   };
 
   const setCategoriesArray = (blogCats) => {
@@ -485,7 +486,6 @@ const CreateBlog = ({ router }) => {
     setValues({
       ...values,
       error: "",
-      success: "",
     });
   };
 
@@ -501,7 +501,7 @@ const CreateBlog = ({ router }) => {
 
     if (name === "title") setTitle(value);
     if (name === "photo") setPhoto(value);
-    setValues({ ...values, error: "", success: "" });
+    setValues({ ...values, error: ""});
   };
 
   const showSuccess = () =>

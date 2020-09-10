@@ -9,6 +9,7 @@ import {
   NavItem,
   NavLink,
 } from "shards-react";
+
 import { isAuth, signout } from "../../../../actions/auth";
 import Router from "next/router";
 
@@ -35,16 +36,25 @@ export default class UserActions extends React.Component {
         <DropdownToggle
           caret
           tag={NavLink}
-          className="text-nowrap px-3"
+          className="text-nowrap px-3 d-flex justify-content-start align-items-center"
           style={{ color: "rgb(0,0,0,0.5)" }}
         >
-          <img
-            className="user-avatar rounded-circle mr-2"
-            src={"../../../../static/images/avatars/0.jpg"}
-            alt="User Avatar"
-          />{" "}
+          {isAuth() &&
+            (isAuth().photo.link ? (
+              <div className="image-cropper-avatar mr-3">
+                <img
+                  className="profile-pic"
+                  src={isAuth().photo.link}
+                  alt="thumb"
+                />
+              </div>
+            ) : (
+              <i className="material-icons" style={{ fontSize: "2.5rem" }}>
+                face
+              </i>
+            ))}
           {isAuth() && (
-            <label className="d-none d-md-inline-block mr-3">{`${
+            <label className="d-none d-md-inline-block mb-0 mr-2">{`${
               isAuth().name
             }`}</label>
           )}
