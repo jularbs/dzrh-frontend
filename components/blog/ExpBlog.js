@@ -1,8 +1,7 @@
 import { Row, Col } from "shards-react";
 import rs from "text-readability";
-import dynamic from "next/dynamic";
-const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
-import "../../node_modules/react-quill/dist/quill.snow.css";
+import { Editor } from "@tinymce/tinymce-react";
+import { editorModules } from "../../helpers/tinymce";
 
 import {
   CardHeader,
@@ -20,22 +19,21 @@ import {
 } from "shards-react";
 
 import { useState, useEffect } from "react";
-import { getCookie } from "../../actions/auth";
+import { getCookie, isAuth } from "../../actions/auth";
 import { withRouter } from "next/router";
 
 import { getTags } from "../../actions/tag";
 import { getCategories } from "../../actions/category";
 import { create, singleBlog, updateBlog } from "../../actions/blog";
 
-import { Quillmodules, Quillformats } from "../../utils/quill";
-
-const ExpBlog = ({ router }) => {
+const CreateBlog = ({ router }) => {
   const [categories, setCategories] = useState([]);
   const [tags, setTags] = useState([]);
 
   const [checkedCategories, setCheckedCategories] = useState([]);
   const [checkedTags, setCheckedTags] = useState([]);
 
+  const [status, setStatus] = useState("");
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [photo, setPhoto] = useState("");
@@ -61,6 +59,7 @@ const ExpBlog = ({ router }) => {
   }, [router]);
 
   const initBlog = () => {
+    setValues({ ...values, author: isAuth().name });
     if (router.query.slug) {
       singleBlog(router.query.slug).then((data) => {
         console.log(data);
@@ -74,6 +73,7 @@ const ExpBlog = ({ router }) => {
             previewImage: data.photo.link,
             author: data.postedBy.name,
           });
+          setStatus(data.status);
           setTitle(data.title);
           setBody(data.body);
           setCategoriesArray(data.categories);
@@ -142,30 +142,6 @@ const ExpBlog = ({ router }) => {
     });
   };
 
-  const showEditor = () => {
-    return (
-      <Card small className="mb-3">
-        <CardBody>
-          <FormInput
-            onChange={handleChange("title")}
-            value={title}
-            size="lg"
-            className="mb-3"
-            placeholder="Your Post Title"
-          />
-          <ReactQuill
-            className="add-new-post__editor mb-1"
-            placeholder="Type something amazing..."
-            onChange={handleBody}
-            value={body}
-            modules={Quillmodules}
-            formats={Quillformats}
-          />
-        </CardBody>
-      </Card>
-    );
-  };
-
   const showSEO = () => {
     return (
       <Card small className="mb-3">
@@ -214,15 +190,12 @@ const ExpBlog = ({ router }) => {
             <ListGroupItem className="p-3">
               <span className="d-flex mb-2">
                 <i className="material-icons mr-1">flag</i>
-                <strong className="mr-1">Status:</strong> Draft{" "}
-                <a className="ml-auto" href="#">
-                  Edit
-                </a>
+                <strong className="mr-1">Status:</strong> {status}
               </span>
               <span className="d-flex mb-2">
                 <i className="material-icons mr-1">create</i>
                 <strong className="mr-1">Author:</strong>{" "}
-                <strong>{author}</strong>{" "}
+                <strong>{author}</strong>
               </span>
               <span className="d-flex mb-2">
                 <i className="material-icons mr-1">calendar_today</i>
@@ -240,15 +213,22 @@ const ExpBlog = ({ router }) => {
               </span>
             </ListGroupItem>
             <ListGroupItem className="d-flex px-3 border-0">
-              <Button outline theme="accent" size="sm">
-                <i className="material-icons">save</i> Save Draft
+              <Button
+                outline
+                theme="accent"
+                size="sm"
+                onClick={handleSubmit("draft")}
+              >
+                <i className="material-icons">save</i>{" "}
+                {loading ? "Processing..." : "Save as draft"} 
+                {showSpinner()}
               </Button>
               <Button
                 theme="accent"
                 type="submit"
                 size="sm"
                 className="ml-auto"
-                onClick={handleSubmit}
+                onClick={handleSubmit("published")}
               >
                 <i className="material-icons">file_copy</i>{" "}
                 {loading ? "Processing..." : "Publish"}
@@ -412,13 +392,14 @@ const ExpBlog = ({ router }) => {
     setCheckedTags(all);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (status) => (e) => {
     e.preventDefault();
     setValues({ ...values, loading: true });
-
     var data = new FormData();
+    data.set("status", status);
     data.set("title", title);
-    if(photo) data.set("photo", photo);
+
+    if (photo) data.set("photo", photo, "blogfi" + new Date().getTime());
     data.set("body", body);
     data.set("categories", checkedCategories);
     data.set("tags", checkedTags);
@@ -428,6 +409,7 @@ const ExpBlog = ({ router }) => {
         if (data.error) {
           setValues({ ...values, error: data.error });
         } else {
+          setStatus(data.status);
           setValues({
             ...values,
             success: `Blog titled ${data.title} is successfully updated`,
@@ -460,28 +442,51 @@ const ExpBlog = ({ router }) => {
     }
   };
 
-  const handleBody = (e) => {
-    setBody(e);
+  const handleEditorChange = (e) => {
+    setBody(e.target.getContent());
     setValues({
       ...values,
       error: "",
-      success: ""
     });
+  };
+
+  const showTinyMce = () => {
+    return (
+      <Card small className="mb-3">
+        <CardBody>
+          <FormInput
+            onChange={handleChange("title")}
+            value={title}
+            size="lg"
+            className="mb-3"
+            placeholder="Your Post Title"
+          />
+          <Editor
+            init={editorModules}
+            onChange={handleEditorChange}
+            value={body}
+          />
+        </CardBody>
+      </Card>
+    );
   };
 
   const handleChange = (name) => (e) => {
     const value = name === "photo" ? e.target.files[0] : e.target.value;
     if (name === "photo") {
-      let reader = new FileReader();
-      reader.onloadend = () => {
-        setValues({ ...values, previewImage: reader.result });
-      };
-      reader.readAsDataURL(e.target.files[0]);
+      if (e.target.files[0]) {
+        setPhoto(value);
+        let reader = new FileReader();
+        reader.onloadend = () => {
+          setValues({ ...values, previewImage: reader.result });
+        };
+        reader.readAsDataURL(e.target.files[0]);
+        console.log("FILE PICKER SUCCESS");
+      }
     }
 
     if (name === "title") setTitle(value);
-    if (name === "photo") setPhoto(value);
-    setValues({ ...values, error: "", success: "" });
+    setValues({ ...values, error: "" });
   };
 
   const showSuccess = () =>
@@ -512,7 +517,7 @@ const ExpBlog = ({ router }) => {
       <Col lg="9" md="12">
         {showSuccess()}
         {showError()}
-        {showEditor()}
+        {showTinyMce()}
       </Col>
       <Col lg="3" md="12">
         {showActions()}
@@ -524,4 +529,4 @@ const ExpBlog = ({ router }) => {
   );
 };
 
-export default withRouter(ExpBlog);
+export default withRouter(CreateBlog);

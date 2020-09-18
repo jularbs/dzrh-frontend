@@ -64,6 +64,7 @@ const ManageBlogs = ({
             style={{ cursor: "pointer" }}
             className="mb-4"
             onClick={loadMore}
+            
           >
             <div className="mx-auto mt-3 mb-2 text-center">
               <i
@@ -234,7 +235,7 @@ const ManageBlogs = ({
 
 ManageBlogs.getInitialProps = () => {
   let skip = 0;
-  let limit = 4;
+  let limit = 6;
   return listBlogsWithCategoriesAndTags(skip, limit).then((data) => {
     if (data.error) {
       console.log(data.error);

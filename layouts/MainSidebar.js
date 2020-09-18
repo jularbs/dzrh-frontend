@@ -95,7 +95,7 @@ const MainSidebar = () => {
         <SidebarNavItem
           item={{
             title: "Video Stream Settings",
-            to: "/blog-overview",
+            to: "/cms/admin/streams/video",
             htmlBefore: '<i class="material-icons">edit</i>',
             htmlAfter: "",
           }}
@@ -103,7 +103,7 @@ const MainSidebar = () => {
         <SidebarNavItem
           item={{
             title: "Audio Stream Settings",
-            to: "/blog-overview",
+            to: "/cms/admin/streams/audio",
             htmlBefore: '<i class="material-icons">edit</i>',
             htmlAfter: "",
           }}
@@ -181,7 +181,10 @@ const MainSidebar = () => {
           <NavbarBrand
             className="w-100 mr-0"
             href="#"
-            style={{ lineHeight: "25px", backgroundColor: "rgb(254,195,33)" }}
+            style={{
+              lineHeight: "25px",
+              backgroundColor: "rgb(254,195,33",
+            }}
           >
             <div className="d-table m-auto">
               <span className="d-none d-md-inline ml-1">DZRH NEWS ONLINE</span>

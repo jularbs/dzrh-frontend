@@ -5,6 +5,7 @@ import Admin from "../../../components/auth/Admin.component";
 
 import PageTitle from "../../../components/common/PageTitle";
 import CreateBlog from "../../../components/blog/CreateBlog";
+import ExpBlog from "../../../components/blog/ExpBlog";
 
 const CreateArticle = () => {
   return (
@@ -18,7 +19,7 @@ const CreateArticle = () => {
             className="text-sm-left"
           />
         </Row>
-        <CreateBlog />
+        <ExpBlog />
       </Admin>
     </Layout>
   );

@@ -1,9 +1,13 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../shards-dashboard/styles/shards-dashboards.1.1.0.css";
-
+import RadioPlayer from "../components/radioplay";
 
 function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+  return (
+    // <RadioPlayer>
+    <Component {...pageProps} />
+    // </RadioPlayer>
+  );
 }
 
 // Only uncomment this method if you have blocking data requirements for
@@ -18,4 +22,4 @@ function MyApp({ Component, pageProps }) {
 //   return { ...appProps }
 // }
 
-export default MyApp
+export default MyApp;

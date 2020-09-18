@@ -4,6 +4,7 @@ import PageTitle from "../../../../components/common/PageTitle";
 import Admin from "../../../../components/auth/Admin.component";
 
 import CreateBlog from "../../../../components/blog/CreateBlog";
+import ExpBlog from "../../../../components/blog/ExpBlog";
 
 const AdminCategoryManagement = () => {
   return (
@@ -16,7 +17,7 @@ const AdminCategoryManagement = () => {
             className="text-sm-left mb-3"
           />
         </Row>
-        <CreateBlog />
+        <ExpBlog />
       </Admin>
     </Layout>
   );

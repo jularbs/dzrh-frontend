@@ -28,7 +28,6 @@ const MyProfile = () => {
     username: "",
     name: "",
     email: "",
-    password: "",
     about: "",
     error: false,
     success: false,
@@ -38,6 +37,18 @@ const MyProfile = () => {
     displayPhoto: "",
     displayName: "",
     previewPhoto: "",
+    password: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
+
+  const [validations, setValidations] = useState({
+    name: { valid: false, invalid: false, message: "" },
+    email: { valid: false, invalid: false, message: "" },
+    oldPassword: { valid: false, invalid: false, message: "" },
+    newPassword: { valid: false, invalid: false, message: "" },
+    confirmPassword: { valid: false, invalid: false, message: "" },
+    about: { valid: false, invalid: false, message: "" },
   });
 
   const token = getCookie("token");
@@ -94,16 +105,87 @@ const MyProfile = () => {
     init();
   }, []);
 
+  const handlePasswordsValidation = (name, value) => {
+    switch (name) {
+      case "password":
+        if (
+          value.match(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/g
+          )
+        ) {
+          setValidations({
+            ...validations,
+            oldPassword: { valid: true, invalid: false },
+          });
+        } else {
+          setValidations({
+            ...validations,
+            oldPassword: {
+              valid: false,
+              invalid: true,
+              message:
+                "Password must be 8 characters long, At least 1 capital letter, 1 numeric character and 1 special character",
+            },
+          });
+        }
+        break;
+      case "newPassword":
+        if (
+          value.match(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/g
+          )
+        ) {
+          setValidations({
+            ...validations,
+            newPassword: { valid: true, invalid: false },
+          });
+        } else {
+          setValidations({
+            ...validations,
+            newPassword: {
+              valid: false,
+              invalid: true,
+              message:
+                "Password must be 8 characters long, At least 1 capital letter, 1 numeric character and 1 special character",
+            },
+          });
+        }
+        break;
+      case "confirmPassword":
+        if (value === values.newPassword) {
+          setValidations({
+            ...validations,
+            confirmPassword: { valid: true, invalid: false },
+          });
+        } else {
+          setValidations({
+            ...validations,
+            confirmPassword: {
+              valid: false,
+              invalid: true,
+              message: "Password doesn't match.",
+            },
+          });
+        }
+        break;
+      default:
+        console.log("Field not available for validation");
+    }
+  };
+
   const handleChange = (name) => (e) => {
     const value = name === "photo" ? e.target.files[0] : e.target.value;
+
     if (name === "photo") {
       let reader = new FileReader();
       reader.onloadend = () => {
-        console.log("READER ENDED LOAD");
         setValues({ ...values, previewPhoto: reader.result });
       };
       reader.readAsDataURL(e.target.files[0]);
+    } else {
+      handlePasswordsValidation(name, e.target.value);
     }
+
     userData.set(name, value);
     setValues({
       ...values,
@@ -154,10 +236,6 @@ const MyProfile = () => {
     });
   };
 
-  const handleChangePassword = (e) => {
-    e.preventDefault();
-  };
-
   const showSuccess = () =>
     success && (
       <div className="alert alert-success">Profile Updated Successfully</div>
@@ -173,6 +251,10 @@ const MyProfile = () => {
         style={{ color: "#FBFBFB", display: loading ? "" : "none" }}
       ></div>
     );
+  };
+
+  const handleChangePasswordSubmit = () => {
+    
   };
 
   const changePasswordForm = () => {
@@ -193,7 +275,15 @@ const MyProfile = () => {
                         id="fOldPassword"
                         placeholder="Input Old Password"
                         type="password"
+                        onChange={handleChange("password")}
+                        valid={validations.oldPassword.valid}
+                        invalid={validations.oldPassword.invalid}
                       />
+                      {validations.oldPassword.message && (
+                        <span className="text-danger label__validation--message">
+                          {validations.oldPassword.message}
+                        </span>
+                      )}
                     </Col>
                     <Col md="12" className="form-group">
                       <label htmlFor="fNewPassword">New Password</label>
@@ -201,7 +291,15 @@ const MyProfile = () => {
                         id="fNewPassword"
                         placeholder="Input New Password"
                         type="password"
+                        onChange={handleChange("newPassword")}
+                        valid={validations.newPassword.valid}
+                        invalid={validations.newPassword.invalid}
                       />
+                      {validations.newPassword.message && (
+                        <span className="text-danger label__validation--message">
+                          {validations.newPassword.message}
+                        </span>
+                      )}
                     </Col>
                     <Col md="12" className="form-group">
                       <label htmlFor="fConfirmPass">Confirm New Password</label>
@@ -209,10 +307,27 @@ const MyProfile = () => {
                         id="fConfirmPass"
                         placeholder="Confirm New Password"
                         type="password"
+                        onChange={handleChange("confirmPassword")}
+                        valid={validations.confirmPassword.valid}
+                        invalid={validations.confirmPassword.invalid}
                       />
+                      {validations.confirmPassword.message && (
+                        <span className="text-danger label__validation--message">
+                          {validations.confirmPassword.message}
+                        </span>
+                      )}
                     </Col>
                   </Row>
-                  <Button onClick={handleChangePassword} theme="accent">Change Password</Button>
+                  <Button
+                    theme="accent"
+                    disabled={
+                      validations.oldPassword.valid == false &&
+                      validations.newPassword.valid == false &&
+                      validations.confirmPassword.valid == false
+                    }
+                  >
+                    Change Password
+                  </Button>
                 </Form>
               </Col>
             </Row>

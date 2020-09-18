@@ -17,7 +17,7 @@ class MyDocument extends Document {
           ></link> */}
           <link rel="stylesheet" href="/static/css/styles.css"></link>
         </Head>
-        <body>
+        <body style={{overflowAnchor: "none"}}>
           <Main />
           <NextScript />
         </body>

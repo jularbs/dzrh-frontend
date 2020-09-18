@@ -26,6 +26,32 @@ export const create = (blog, token) => {
     .catch((err) => console.log(err));
 };
 
+export const uploadImage = (image, token) => {
+  let endpoint;
+  if (isAuth() && isAuth().role == 1) {
+    endpoint = `${API}/blog/uploadimage`;
+  } else if (isAuth() && isAuth().role == 0) {
+    endpoint = `${API}/user/uploadimage`;
+  }
+
+  endpoint = `${API}/blog/uploadimage`;
+  console.log("ENDPONT: ", endpoint);
+
+  return fetch(`${endpoint}`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: image,
+  })
+    .then((response) => {
+      handleResponse(response);
+      return response.json();
+    })
+    .catch((err) => console.log(err));
+};
+
 export const listBlogsWithCategoriesAndTags = (skip, limit) => {
   const data = {
     limit,

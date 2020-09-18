@@ -2,9 +2,13 @@ import { Container, Row, Col } from "shards-react";
 import MainSidebar from "./MainSidebar";
 import MainNavbar from "./MainNavbar";
 import MainFooter from "../components/layout/MainFooter";
-// TO FIX
-// userActions: Color on hover
-// nprogress!!
+import Router from "next/router";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
+NProgress.configure({ showSpinner: true });
+Router.onRouteChangeStart = (url) => NProgress.start();
+Router.onRouteChangeComplete = (url) => NProgress.done();
+Router.onRouteChangeError = (url) => NProgress.done();
 
 const Layout = ({children}) => {
   return (
